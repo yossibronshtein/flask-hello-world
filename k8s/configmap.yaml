@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: flask-hello-world-configmap
-data:
-  APP_GREETING: "Hello from ConfigMap!"
-

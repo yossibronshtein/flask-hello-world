@@ -10,7 +10,7 @@ spec:
     app.kubernetes.io/name: {{ include "flask-hello-world.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.port }}
-      protocol: TCP
-      name: http
+    - name: http
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort | default .Values.containerPort }}
+
