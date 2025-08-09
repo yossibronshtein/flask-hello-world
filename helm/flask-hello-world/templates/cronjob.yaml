@@ -1,0 +1,21 @@
+{{- if .Values.cronjob.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "flask-hello-world.fullname" . }}
+  labels:
+    {{- include "flask-hello-world.labels" . | nindent 4 }}
+spec:
+  schedule: "{{ .Values.cronjob.schedule }}"
+  successfulJobsHistoryLimit: {{ .Values.cronjob.successfulJobsHistoryLimit }}
+  failedJobsHistoryLimit: {{ .Values.cronjob.failedJobsHistoryLimit }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: {{ include "flask-hello-world.name" . }}-job
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+              command: ["python","/app/app.py"]
+{{- end }}
